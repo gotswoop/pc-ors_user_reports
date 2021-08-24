@@ -1,6 +1,8 @@
 <?php
 // Call the REDCap Connect file in the main "redcap" directory.
-require_once '../redcap_connect.php';
+require_once __DIR__ . '/../../../redcap_connect.php';
+
+global $redcap_version;
 
 $users = REDCap::getUsers();
 REDCap::allowUsers ( $users );
@@ -32,7 +34,7 @@ and cast(a.value as date) >= ? and cast(a.value as date) <= ?";
     $stmt->execute();
     $stmt->bind_result($record_id, $first_name, $last_name, $dateofservice);
     while($stmt->fetch()){
-        $table .= "<tr><td><a href='https://redcap.med.usc.edu/redcap_v11.2.2/DataEntry/record_home.php?pid=7217&arm=1&id=" . $record_id . "'> "  . $record_id . "</a></td><td>" . $first_name . "</td><td>" . $last_name . "</td><td>" . $dateofservice. "</td>";
+        $table .= "<tr><td><a href='/redcap_v" . $redcap_version . "/DataEntry/record_home.php?pid=7217&arm=1&id=" . $record_id . "'> "  . $record_id . "</a></td><td>" . $first_name . "</td><td>" . $last_name . "</td><td>" . $dateofservice. "</td>";
     }
 
     $table .= "</tbody>";

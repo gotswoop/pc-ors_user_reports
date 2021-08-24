@@ -1,7 +1,6 @@
 <?php
 // Call the REDCap Connect file in the main "redcap" directory. 
-
-require_once '../redcap_connect.php';
+require_once __DIR__ . '/../../../redcap_connect.php';
 
 REDCap::allowProjects(7217);
 
