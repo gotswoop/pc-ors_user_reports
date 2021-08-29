@@ -15,8 +15,8 @@ case WHEN redcap_data.field_name = 'surgeons' then SUBSTRING_INDEX(SUBSTRING_IND
 case WHEN redcap_data.field_name = 'service_list' then value end as service_list,
 redcap_metadata.element_enum
 from redcap_data
-left join redcap_metadata on redcap_data.project_id = '7217' and redcap_data.field_name = redcap_metadata.field_name 
-where redcap_data.project_id = '7217' 
+left join redcap_metadata on redcap_data.project_id = " . getPID() . " and redcap_data.field_name = redcap_metadata.field_name
+where redcap_data.project_id = " . getPID() . "
 and redcap_data.field_name in ('surgeons', 'service_list', 'room', 'registry_id', 'patient_last', 'patient_first')
 and record in (select record from redcap_data where field_name = 'service_list' and value = 1)
 and record in (select record from redcap_data where field_name = 'patient_status' and value = 0)
@@ -43,5 +43,16 @@ while ($row = mysqli_fetch_assoc($result)) {
 }
 echo '</table>';
 
+
+function getPID()
+{
+    $pid = $_GET['pid'];
+ 
+    if (ctype_digit($pid)) {
+        return $pid;
+    } else {
+        return null;
+    }
+}
 
 // OPTIONAL: Display the project footer

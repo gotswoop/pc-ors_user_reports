@@ -18,7 +18,7 @@ FROM redcap.redcap_data a
 left join redcap.redcap_data b on a.project_id = b.project_id and a.record = b.record and b.field_name = 'patient_first'
 left join redcap.redcap_data c on a.project_id = c.project_id and a.record = c.record and c.field_name = 'patient_last'
 where a.field_name in ('billing_date', 'billing_date2', 'billing_date3', 'billing_date4', 'billing_date5', 'billing_date6')
-and a.project_id = 7217
+and a.project_id = ?
 and cast(a.value as date) >= ? and cast(a.value as date) <= ?";
 
     $table = "<thead>
@@ -30,7 +30,7 @@ and cast(a.value as date) >= ? and cast(a.value as date) <= ?";
     </tr></thead><tbody>";
 
     $stmt = mysqli_prepare($conn, "$query");
-    mysqli_stmt_bind_param($stmt, "ss", $startdate, $endate);
+    mysqli_stmt_bind_param($stmt, "iss", $_GET["pid"], $startdate, $endate);
     $stmt->execute();
     $stmt->bind_result($record_id, $first_name, $last_name, $dateofservice);
     while($stmt->fetch()){
